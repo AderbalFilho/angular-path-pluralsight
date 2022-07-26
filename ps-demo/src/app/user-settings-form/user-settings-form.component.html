@@ -1,0 +1,124 @@
+<div class="container">
+  <h2>User Settings</h2>
+
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        name="name"
+        class="form-control"
+        [class.field-error]="form.submitted && nameField.invalid"
+        [(ngModel)]="userSettings.name"
+        required
+        #nameField="ngModel"
+        (blur)="onBlur(nameField)"
+      />
+      <div
+        [hidden]="!form.submitted || nameField.valid"
+        class="alert alert-danger"
+      >
+        <!-- [hidden]="nameField.valid || nameField.untouched" -->
+        Enter a name
+      </div>
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="startDate">Start Date</label>
+      <input type="text"
+             placeholder="Start Date"
+             class="form-control"
+             [(ngModel)]="startDate"
+             name="startDate"
+             id="startDate"
+             bsDaterangepicker>
+    </div>
+
+    Start Date: {{ startDate }}
+
+    <div class="form-group mt-3">
+      <label for="startTime">Start Time</label>
+      <timepicker [(ngModel)]="startTime" name="startTime" id="startTime"></timepicker>
+    </div>
+
+    Start Time: {{ startTime }}
+
+    <div class="form-group mt-3">
+      User Rating
+      <rating [(ngModel)]="userRating" [max]="maxRating" [readonly]="isReadonly"
+        name="userRating" id="userRating"
+        [titles]="['one','two','three']"></rating>
+    </div>
+
+    User Rating: {{ userRating }}
+
+    <div class="mt-3">
+      <button type="button" class="btn btn-primary" name="singleModel"
+              [(ngModel)]="singleModel" btnCheckbox
+              btnCheckboxTrue="On" btnCheckboxFalse="Off">
+        {{ singleModel }}
+      </button>
+    </div>
+
+    <div class="form-check form-group mt-3">
+      <input class="form-check-input" type="checkbox" value="" id="emailOffers" name="emailOffers" [(ngModel)]="userSettings.emailOffers">
+      <label class="form-check-label" for="emailOffers">
+        Email Special Offers
+      </label>
+    </div>
+
+    <p class="mt-3">User Interface Style</p>
+    <div class="form-group">
+      <div class="btn-group">
+        <label class="btn btn-primary" [(ngModel)]="userSettings.interfaceStyle" name="interfaceStyle"
+          btnRadio="Light" tabindex="0" role="button">Light</label>
+        <label class="btn btn-primary" [(ngModel)]="userSettings.interfaceStyle" name="interfaceStyle"
+          btnRadio="Medium" tabindex="0" role="button">Medium</label>
+        <label class="btn btn-primary" [(ngModel)]="userSettings.interfaceStyle" name="interfaceStyle"
+          btnRadio="Dark" tabindex="0" role="button">Dark</label>
+      </div>
+
+      <!-- <div class="form-check">
+        <input class="form-check-input" type="radio" name="interfaceStyle" id="lightInterface" value="light" checked [(ngModel)]="userSettings.interfaceStyle">
+        <label class="form-check-label" for="lightInterface">
+          Light
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="interfaceStyle" id="mediumInterface" value="medium" [(ngModel)]="userSettings.interfaceStyle">
+        <label class="form-check-label" for="mediumInterface">
+          Medium
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="interfaceStyle" id="darkInterface" value="dark" [(ngModel)]="userSettings.interfaceStyle">
+        <label class="form-check-label" for="darkInterface">
+          Dark
+        </label>
+      </div> -->
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="subscriptionType">Subscription Type</label>
+      <select class="form-select" id="subscriptionType" name="subscriptionType" aria-label="Subscription Type" [(ngModel)]="userSettings.subscriptionType">
+        <option *ngFor="let type of subscriptionTypes | async">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes" class="form-control" rows="3" [(ngModel)]="userSettings.notes"></textarea>
+    </div>
+
+    <div
+      [hidden]="!postError"
+      class="alert alert-danger mt-3"
+    >
+      {{ postErrorMessage }}
+    </div>
+
+    <button class="btn btn-primary mt-3">Send</button>
+  </form>
+</div>
